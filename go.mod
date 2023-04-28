@@ -3,6 +3,8 @@ module mini_project
 go 1.20
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/labstack/echo-jwt/v4 v4.1.0
 	github.com/labstack/echo/v4 v4.10.2
 	gorm.io/driver/mysql v1.5.0
 	gorm.io/gorm v1.25.0

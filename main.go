@@ -20,10 +20,16 @@ func main() {
 		Format: "[${time_rfc3339}] ${status} ${method} ${host} ${path} ${latency_human}" + "\n",
 	}
 
+	configJWT := middlewares.JWTConfig{
+		SecretKey		: "secret_key",
+		ExpiresDuration	: 1,
+	}
+
 	e := echo.New()
 
 	routesInit := routes.ControllerList{
 		LoggerMiddleware:   configLogger.Init(),
+		JWTMiddleware	:   configJWT.Init(),
 	}
 
 	routesInit.SetUpRoutes(e)
