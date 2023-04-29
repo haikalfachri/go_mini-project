@@ -13,6 +13,7 @@ type ControllerList struct {
 	JWTMiddleware      		echojwt.Config
 	UserController			controllers.UserController
 	VehicleController		controllers.VehicleController
+	TransactionController	controllers.TransactionController
 }
 
 func (cl *ControllerList) SetUpRoutes(e *echo.Echo) {
@@ -35,4 +36,10 @@ func (cl *ControllerList) SetUpRoutes(e *echo.Echo) {
 	useAuth.GET("/vehicles/:id", cl.VehicleController.GetById, middlewares.VerifyAdmin)
 	useAuth.PUT("/vehicles/:id", cl.VehicleController.Update, middlewares.VerifyAdmin)
 	useAuth.DELETE("/vehicles/:id", cl.VehicleController.Delete, middlewares.VerifyAdmin)
+
+	useAuth.POST("/transactions", cl.TransactionController.Create, middlewares.VerifyToken)
+	useAuth.GET("/transactions", cl.TransactionController.GetAll, middlewares.VerifyAdmin)
+	useAuth.GET("/transactions/:id", cl.TransactionController.GetById, middlewares.VerifyAdmin)
+	useAuth.PUT("/transactions/:id", cl.TransactionController.Update, middlewares.VerifyAdmin)
+	useAuth.DELETE("/transactions/:id", cl.TransactionController.Delete, middlewares.VerifyAdmin)
 }

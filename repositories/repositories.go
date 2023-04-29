@@ -22,3 +22,11 @@ type VehicleRepository interface {
 	Update(vehicleInput input.VehicleInput, id string) (models.Vehicle, error)
 	Delete(id string) error
 }
+
+type TransactionRepository interface {
+	Create(transactionInput input.TransactionInput) (models.Transaction, error)
+	GetAll() ([]models.Transaction, error)
+	GetById(id string) (models.Transaction, error)
+	Update(transactionInput input.TransactionInput, id string) (models.Transaction, error)
+	Delete(id string) error
+}
