@@ -14,6 +14,7 @@ type ControllerList struct {
 	UserController			controllers.UserController
 	VehicleController		controllers.VehicleController
 	TransactionController	controllers.TransactionController
+	OrderController 		controllers.OrderController
 }
 
 func (cl *ControllerList) SetUpRoutes(e *echo.Echo) {
@@ -42,4 +43,10 @@ func (cl *ControllerList) SetUpRoutes(e *echo.Echo) {
 	useAuth.GET("/transactions/:id", cl.TransactionController.GetById, middlewares.VerifyAdmin)
 	useAuth.PUT("/transactions/:id", cl.TransactionController.Update, middlewares.VerifyAdmin)
 	useAuth.DELETE("/transactions/:id", cl.TransactionController.Delete, middlewares.VerifyAdmin)
+
+	useAuth.POST("/orders", cl.OrderController.Create, middlewares.VerifyToken)
+	useAuth.GET("/orders", cl.OrderController.GetAll, middlewares.VerifyAdmin)
+	useAuth.GET("/orders/:id", cl.OrderController.GetById, middlewares.VerifyAdmin)
+	useAuth.PUT("/orders/:id", cl.OrderController.Update, middlewares.VerifyToken)
+	useAuth.DELETE("/orders/:id", cl.OrderController.Delete, middlewares.VerifyAdmin)
 }

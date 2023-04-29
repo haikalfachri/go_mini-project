@@ -30,3 +30,11 @@ type TransactionRepository interface {
 	Update(transactionInput input.TransactionInput, id string) (models.Transaction, error)
 	Delete(id string) error
 }
+
+type OrderRepository interface {
+	Create(orderInput input.OrderInput) (models.Order, error)
+	GetAll() ([]models.Order, error)
+	GetById(id string) (models.Order, error)
+	Update(orderInput input.OrderInput, id string) (models.Order, error)
+	Delete(id string) error
+}
