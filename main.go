@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+  "mini_project/controllers"
 	"mini_project/database"
 	"mini_project/middlewares"
 	"mini_project/routes"
@@ -34,9 +35,13 @@ func main() {
 
 	e := echo.New()
 
+	userCtrl := controllers.InitUserContoller(&configJWT)
+
 	routesInit := routes.ControllerList{
 		LoggerMiddleware:   configLogger.Init(),
 		JWTMiddleware	:   configJWT.Init(),
+		UserController	: 	*userCtrl,
+
 	}
 
 	routesInit.SetUpRoutes(e)
