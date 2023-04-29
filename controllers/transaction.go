@@ -14,12 +14,14 @@ import (
 )
 
 type TransactionController struct {
-	service services.TransactionService
+	serviceTransaction 	services.TransactionService
+	serviceOrder 		services.OrderService
 }
 
 func InitTransactionContoller(jwtAuth *middlewares.JWTConfig) *TransactionController {
 	return &TransactionController{
-		service: services.InitTransactionService(jwtAuth),
+		serviceTransaction: services.InitTransactionService(jwtAuth),
+		serviceOrder: services.InitOrderService(jwtAuth),
 	}
 }
 
@@ -78,7 +80,7 @@ func (uc *TransactionController) Create(c echo.Context) error {
 		})
 	}
 
-	transaction, err := uc.service.Create(transactionInput)
+	transaction, err := uc.serviceTransaction.Create(transactionInput)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response[any]{
 			Status 	: "failed",
@@ -95,7 +97,7 @@ func (uc *TransactionController) Create(c echo.Context) error {
 }
 
 func (uc *TransactionController) GetByName(c echo.Context) error {
-	transactions, err := uc.service.GetAll()
+	transactions, err := uc.serviceTransaction.GetAll()
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response[any]{
@@ -113,7 +115,7 @@ func (uc *TransactionController) GetByName(c echo.Context) error {
 }
 
 func (uc *TransactionController) GetAll(c echo.Context) error {
-	transactions, err := uc.service.GetAll()
+	transactions, err := uc.serviceTransaction.GetAll()
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response[any]{
@@ -133,7 +135,7 @@ func (uc *TransactionController) GetAll(c echo.Context) error {
 func (uc *TransactionController) GetById(c echo.Context) error {
 	id := c.Param("id")
 
-	transaction, err := uc.service.GetById(id)
+	transaction, err := uc.serviceTransaction.GetById(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response[any]{
 			Status 	: "failed",
@@ -145,6 +147,82 @@ func (uc *TransactionController) GetById(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Response[any]{
 		Status 	: "success",
 		Message	: "success to fetch a transaction by id",
+		Data	:  transaction,
+	})
+}
+
+
+func (uc *TransactionController) PayOrder(c echo.Context) error {
+	file, err := c.FormFile("image")
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response[any]{
+			Status 	: "failed",
+			Message	: "request invalid",
+			Error	:  err.Error(),
+		})
+	}
+
+	src, err := file.Open()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response[any]{
+			Status 	: "failed",
+			Message	: "failed to read the image",
+			Error	:  err.Error(),
+		})
+	}
+
+	defer src.Close()
+
+	img, _, err := image.Decode(src) 
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response[any]{
+			Status 	: "failed",
+			Message	: "failed to decode the image",
+			Error	:  err.Error(),
+		})
+	}
+
+	buffer := new(bytes.Buffer)
+
+    if err := jpeg.Encode(buffer, img, nil); err != nil {
+        return c.JSON(http.StatusBadRequest, response.Response[any]{
+			Status 	: "failed",
+			Message	: "failed to encode the image",
+			Error	:  err.Error(),
+		})
+    }
+
+	var transactionInput input.TransactionInput = input.TransactionInput{Name: file.Filename, Data: buffer.Bytes()}
+
+	err = transactionInput.Validate()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response[any]{
+			Status 	: "failed",
+			Message	: "input invalid",
+			Error	:  err.Error(),
+		})
+	}
+
+	id := c.Param("id")
+	transaction, err := uc.serviceTransaction.Update(transactionInput, id)
+	
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response[any]{
+			Status 	: "failed",
+			Message	: "request invalid",
+			Error	:  err.Error(),
+		})
+	}
+
+	_, _ = uc.serviceOrder.UpdateStatus(id)
+
+	return c.JSON(http.StatusOK, response.Response[any]{
+		Status 	: "success",
+		Message	: "pay success",
 		Data	:  transaction,
 	})
 }
@@ -163,7 +241,7 @@ func (uc *TransactionController) Update(c echo.Context) error {
 	}
 
 	id := c.Param("id")
-	transaction, err := uc.service.Update(transactionInput, id)
+	transaction, err := uc.serviceTransaction.Update(transactionInput, id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response[any]{
 			Status 	: "failed",
@@ -171,6 +249,8 @@ func (uc *TransactionController) Update(c echo.Context) error {
 			Error	:  err.Error(),
 		})
 	}
+
+
 	
 	return c.JSON(http.StatusOK, response.Response[any]{
 		Status 	: "success",
@@ -182,7 +262,7 @@ func (uc *TransactionController) Update(c echo.Context) error {
 func (uc *TransactionController) Delete(c echo.Context) error {
 	id := c.Param("id")
 
-	if err := uc.service.Delete(id); err != nil {
+	if err := uc.serviceTransaction.Delete(id); err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response[any]{
 			Status 	: "failed",
 			Message	: "failed to delete a transaction",

@@ -41,6 +41,7 @@ func (cl *ControllerList) SetUpRoutes(e *echo.Echo) {
 	useAuth.POST("/transactions", cl.TransactionController.Create, middlewares.VerifyToken)
 	useAuth.GET("/transactions", cl.TransactionController.GetAll, middlewares.VerifyAdmin)
 	useAuth.GET("/transactions/:id", cl.TransactionController.GetById, middlewares.VerifyAdmin)
+	useAuth.PUT("/transactions/pay/:id", cl.TransactionController.PayOrder, middlewares.VerifyToken)
 	useAuth.PUT("/transactions/:id", cl.TransactionController.Update, middlewares.VerifyAdmin)
 	useAuth.DELETE("/transactions/:id", cl.TransactionController.Delete, middlewares.VerifyAdmin)
 
