@@ -2,6 +2,7 @@ package routes
 
 import (
 	"mini_project/controllers"
+	"mini_project/middlewares"
 
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -17,9 +18,13 @@ func (cl *ControllerList) SetUpRoutes(e *echo.Echo) {
 	e.Use(cl.LoggerMiddleware)
 
 	noAuth := e.Group("")
-	e.Group("/auth", echojwt.WithConfig(cl.JWTMiddleware))
+	useAuth := e.Group("/auth", echojwt.WithConfig(cl.JWTMiddleware))
 	
 	noAuth.POST("/register", cl.UserController.Register)
 	noAuth.POST("/login", cl.UserController.Login)
 
+	useAuth.GET("/users", cl.UserController.GetAll, middlewares.VerifyAdmin)
+	useAuth.GET("/users/:id", cl.UserController.GetById, middlewares.VerifyAdmin)
+	useAuth.PUT("/users/:id", cl.UserController.Update, middlewares.VerifyAdmin)
+	useAuth.DELETE("/users/:id", cl.UserController.Delete, middlewares.VerifyAdmin)
 }
