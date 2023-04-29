@@ -14,13 +14,19 @@ func InitOrderRepository() OrderRepository {
 }
 
 func (ur *OrderRepositoryImp) Create(orderInput input.OrderInput) (models.Order, error) {
+	var transaction models.Transaction
+
+	if err := database.ConnectDB().Create(&transaction).Error; err != nil {
+		return models.Order{}, err
+	}
+
 	var order models.Order = models.Order{
 		UserID: orderInput.UserID,
 		VehicleID: orderInput.VehicleID,
-		TransactionID: orderInput.TransactionID,
+		TransactionID: transaction.ID,
 		RentDuration: orderInput.RentDuration,
 		Status: orderInput.Status,
-		// Transaction: orderInput.Transaction,
+		Transaction: transaction,
 	}
 
 	if err := database.ConnectDB().Create(&order).Error; err != nil {
@@ -50,6 +56,22 @@ func (ur *OrderRepositoryImp) GetById(id string) (models.Order, error) {
 		return models.Order{}, err
 	}
 	return order, nil
+}
+
+func (ur *OrderRepositoryImp) UpdateStatus(id string) (models.Order, error) {
+	order, err := ur.GetById(id)
+
+	if err != nil {
+		return models.Order{}, err
+	}
+
+	order.Status = "accepted"
+
+	if err := database.ConnectDB().Save(&order).Error; err != nil {
+		return models.Order{}, err
+	}
+
+    return order, nil
 }
 
 func (ur *OrderRepositoryImp) Update(orderInput input.OrderInput, id string) (models.Order, error) {
