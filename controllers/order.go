@@ -104,6 +104,27 @@ func (uc *OrderController) GetById(c echo.Context) error {
 	})
 }
 
+func (uc *OrderController) GiveRating(c echo.Context) error {
+	var orderInput input.OrderInput
+	c.Bind(&orderInput)
+
+	id := c.Param("id")
+	order, err := uc.service.UpdateRating(orderInput, id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response[any]{
+			Status 	: "failed",
+			Message	: "failed to give rating of an order",
+			Error	:  err.Error(),
+		})
+	}
+	
+	return c.JSON(http.StatusOK, response.Response[any]{
+		Status 	: "success",
+		Message	: "success to give rating of an order",
+		Data	:  order,
+	})
+}
+
 func (uc *OrderController) Update(c echo.Context) error {
 	var orderInput input.OrderInput
 	c.Bind(&orderInput)

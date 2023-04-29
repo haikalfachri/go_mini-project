@@ -12,4 +12,5 @@ type Order struct {
 	Transaction     Transaction `json:"-" gorm:"foreignKey:TransactionID"`
 	RentDuration	int  		`json:"rent_duration"`
 	Status			string  	`json:"status" gorm:"type:enum('pending', 'accepted', 'declined');default:'pending';not_null"`
+	OrderRate		float64		`json:"order_rate"`
 }
