@@ -37,12 +37,14 @@ func main() {
 
 	userCtrl := controllers.InitUserContoller(&configJWT)
 	vehicleCtrl := controllers.InitVehicleContoller(&configJWT)
+	transactionCtrl := controllers.InitTransactionContoller(&configJWT)
 
 	routesInit := routes.ControllerList{
 		LoggerMiddleware:   configLogger.Init(),
 		JWTMiddleware	:   configJWT.Init(),
 		UserController	: 	*userCtrl,
 		VehicleController:  *vehicleCtrl,
+		TransactionController: *transactionCtrl,
 
 	}
 
