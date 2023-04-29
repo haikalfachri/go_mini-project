@@ -58,6 +58,22 @@ func (ur *OrderRepositoryImp) GetById(id string) (models.Order, error) {
 	return order, nil
 }
 
+func (ur *OrderRepositoryImp) UpdateRating(orderInput input.OrderInput, id string) (models.Order, error) {
+	order, err := ur.GetById(id)
+
+	if err != nil {
+		return models.Order{}, err
+	}
+
+	order.OrderRate = orderInput.OrderRate
+
+	if err := database.ConnectDB().Save(&order).Error; err != nil {
+		return models.Order{}, err
+	}
+
+    return order, nil
+}
+
 func (ur *OrderRepositoryImp) UpdateStatus(id string) (models.Order, error) {
 	order, err := ur.GetById(id)
 

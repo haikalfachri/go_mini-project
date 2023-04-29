@@ -36,6 +36,7 @@ type OrderRepository interface {
 	GetAll() ([]models.Order, error)
 	GetById(id string) (models.Order, error)
 	UpdateStatus(id string) (models.Order, error)
+	UpdateRating(orderInput input.OrderInput, id string) (models.Order, error)
 	Update(orderInput input.OrderInput, id string) (models.Order, error)
 	Delete(id string) error
 }

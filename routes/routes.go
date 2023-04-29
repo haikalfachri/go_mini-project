@@ -48,6 +48,7 @@ func (cl *ControllerList) SetUpRoutes(e *echo.Echo) {
 	useAuth.POST("/orders", cl.OrderController.Create, middlewares.VerifyToken)
 	useAuth.GET("/orders", cl.OrderController.GetAll, middlewares.VerifyAdmin)
 	useAuth.GET("/orders/:id", cl.OrderController.GetById, middlewares.VerifyAdmin)
+	useAuth.PUT("/orders/rate/:id", cl.OrderController.GiveRating, middlewares.VerifyToken)
 	useAuth.PUT("/orders/:id", cl.OrderController.Update, middlewares.VerifyToken)
 	useAuth.DELETE("/orders/:id", cl.OrderController.Delete, middlewares.VerifyAdmin)
 }
