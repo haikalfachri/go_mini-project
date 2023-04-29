@@ -104,6 +104,26 @@ func (uc *VehicleController) GetById(c echo.Context) error {
 	})
 }
 
+func (uc *VehicleController) UpdateRating(c echo.Context) error {
+	id := c.Param("id")
+
+	vehicle, err := uc.service.UpdateRating(id)
+	
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response[any]{
+			Status 	: "failed",
+			Message	: "failed to update rating of a vehicle",
+			Error	:  err.Error(),
+		})
+	}
+	
+	return c.JSON(http.StatusOK, response.Response[any]{
+		Status 	: "success",
+		Message	: "success to update rating of a vehicle",
+		Data	:  vehicle,
+	})
+}
+
 func (uc *VehicleController) Update(c echo.Context) error {
 	var vehicleInput input.VehicleInput
 	c.Bind(&vehicleInput)

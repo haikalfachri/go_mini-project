@@ -35,6 +35,7 @@ func (cl *ControllerList) SetUpRoutes(e *echo.Echo) {
 	useAuth.GET("/vehicles/name/:name", cl.VehicleController.GetByName, middlewares.VerifyToken)
 	useAuth.GET("/vehicles", cl.VehicleController.GetAll, middlewares.VerifyAdmin)
 	useAuth.GET("/vehicles/:id", cl.VehicleController.GetById, middlewares.VerifyAdmin)
+	useAuth.PUT("/vehicles/rate/:id", cl.VehicleController.UpdateRating, middlewares.VerifyAdmin)
 	useAuth.PUT("/vehicles/:id", cl.VehicleController.Update, middlewares.VerifyAdmin)
 	useAuth.DELETE("/vehicles/:id", cl.VehicleController.Delete, middlewares.VerifyAdmin)
 
