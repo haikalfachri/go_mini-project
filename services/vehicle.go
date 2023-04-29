@@ -35,6 +35,11 @@ func (us *VehicleService) GetById(id string) (models.Vehicle, error){
 	return us.repository.GetById(id)
 }
 
+func (us *VehicleService) UpdateRating(id string) (models.Vehicle, error){
+	return us.repository.UpdateRating(id)
+}
+
+
 func (us *VehicleService) Update(vehicleInput input.VehicleInput, id string) (models.Vehicle, error){
 	return us.repository.Update(vehicleInput, id)
 }

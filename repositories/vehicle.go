@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"math"
 	"mini_project/database"
 	"mini_project/models"
 	"mini_project/models/input"
@@ -60,6 +61,36 @@ func (ur *VehicleRepositoryImp) GetById(id string) (models.Vehicle, error) {
 		return models.Vehicle{}, err
 	}
 	return vehicle, nil
+}
+
+func (ur *VehicleRepositoryImp) UpdateRating(id string) (models.Vehicle, error) {
+	vehicle, err := ur.GetById(id)
+
+	if err != nil {
+		return models.Vehicle{}, err
+	}
+
+	var orders []models.Order
+
+	if err := database.ConnectDB().Find(&orders, "vehicle_id = ?", id).Error; err != nil {
+		return models.Vehicle{}, err
+	}
+
+	var totalRating float64
+
+	for _, order := range orders{
+		totalRating += order.OrderRate
+	}
+
+	var vehicleRating float64 = totalRating / float64(len(orders))
+
+	vehicle.Rating = math.Floor(vehicleRating*100)/100
+
+	if err := database.ConnectDB().Save(&vehicle).Error; err != nil {
+		return models.Vehicle{}, err
+	}
+
+    return vehicle, nil
 }
 
 func (ur *VehicleRepositoryImp) Update(vehicleInput input.VehicleInput, id string) (models.Vehicle, error) {

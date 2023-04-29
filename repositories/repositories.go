@@ -19,6 +19,7 @@ type VehicleRepository interface {
 	GetByName(vehicleInput input.VehicleInput) ([]models.Vehicle, error) 
 	GetAll() ([]models.Vehicle, error)
 	GetById(id string) (models.Vehicle, error)
+	UpdateRating(id string) (models.Vehicle, error)
 	Update(vehicleInput input.VehicleInput, id string) (models.Vehicle, error)
 	Delete(id string) error
 }
