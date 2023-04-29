@@ -13,6 +13,7 @@ type OrderInput struct {
 	Transaction		models.Transaction	`json:"-"`
 	RentDuration	int 				`json:"rent_duration" validate:"required,min=1"`
 	Status 			string 				`json:"status" gorm:"unique" validate:"required"`
+	OrderRate		float64				`json:"order_rate"`
 }
 
 func (u *OrderInput) Validate() error {

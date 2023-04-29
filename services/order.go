@@ -31,6 +31,10 @@ func (us *OrderService) GetById(id string) (models.Order, error){
 	return us.repository.GetById(id)
 }
 
+func (us *OrderService) UpdateRating(orderInput input.OrderInput, id string) (models.Order, error){
+	return us.repository.UpdateRating(orderInput, id)
+}
+
 func (us *OrderService) Update(orderInput input.OrderInput, id string) (models.Order, error){
 	return us.repository.Update(orderInput, id)
 }
