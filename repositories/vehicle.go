@@ -34,10 +34,10 @@ func (ur *VehicleRepositoryImp) Create(vehicleInput input.VehicleInput) (models.
     return vehicle, nil
 }
 
-func (ur *VehicleRepositoryImp) GetByName(vehicleInput input.VehicleInput) ([]models.Vehicle, error) {
+func (ur *VehicleRepositoryImp) GetByName(name string) ([]models.Vehicle, error) {
 	var vehicle []models.Vehicle
 
-	if err := database.ConnectDB().Find(&vehicle, "name = ?", vehicleInput.Name).Error; err != nil {
+	if err := database.ConnectDB().Find(&vehicle, "name = ?", name).Error; err != nil {
 		return []models.Vehicle{}, err
 	}
 

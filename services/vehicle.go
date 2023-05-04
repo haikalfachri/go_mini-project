@@ -23,8 +23,8 @@ func (us *VehicleService) Create(vehicleInput input.VehicleInput) (models.Vehicl
 	return us.repository.Create(vehicleInput)
 }
 
-func (us *VehicleService) GetByName(vehicleInput input.VehicleInput) ([]models.Vehicle, error){
-	return us.repository.GetByName(vehicleInput)
+func (us *VehicleService) GetByName(name string) ([]models.Vehicle, error){
+	return us.repository.GetByName(name)
 }
 
 func (us *VehicleService) GetAll() ([]models.Vehicle, error){
