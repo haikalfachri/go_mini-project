@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"errors"
 	"mini_project/database"
 	"mini_project/models"
 	"mini_project/models/input"
@@ -63,6 +64,10 @@ func (ur *OrderRepositoryImp) UpdateRating(orderInput input.OrderInput, id strin
 
 	if err != nil {
 		return models.Order{}, err
+	}
+
+	if order.Status != "accepted" {
+		return models.Order{}, errors.New("you haven't pay your order yet")
 	}
 
 	order.OrderRate = orderInput.OrderRate
