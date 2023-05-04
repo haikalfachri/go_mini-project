@@ -59,6 +59,15 @@ func (ur *OrderRepositoryImp) GetById(id string) (models.Order, error) {
 	return order, nil
 }
 
+func (ur *OrderRepositoryImp) GetHistory(id string) ([]models.Order, error) {
+	var orders []models.Order
+
+	if err := database.ConnectDB().Find(&orders, "user_id = ?", id).Error; err != nil {
+		return orders, err
+	}
+	return orders, nil
+}
+
 func (ur *OrderRepositoryImp) UpdateRating(orderInput input.OrderInput, id string) (models.Order, error) {
 	order, err := ur.GetById(id)
 
