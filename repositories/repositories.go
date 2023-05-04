@@ -16,7 +16,7 @@ type UserRepository interface {
 
 type VehicleRepository interface {
 	Create(vehicleInput input.VehicleInput) (models.Vehicle, error)
-	GetByName(vehicleInput input.VehicleInput) ([]models.Vehicle, error) 
+	GetByName(name string) ([]models.Vehicle, error) 
 	GetAll() ([]models.Vehicle, error)
 	GetById(id string) (models.Vehicle, error)
 	UpdateRating(id string) (models.Vehicle, error)

@@ -50,7 +50,9 @@ func (uc *VehicleController) Create(c echo.Context) error {
 }
 
 func (uc *VehicleController) GetByName(c echo.Context) error {
-	vehicles, err := uc.service.GetAll()
+	name := c.FormValue("name")
+
+	vehicles, err := uc.service.GetByName(name)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response[any]{
