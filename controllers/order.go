@@ -80,6 +80,25 @@ func (uc *OrderController) GetAll(c echo.Context) error {
 	})
 }
 
+func (uc *OrderController) GetHistory(c echo.Context) error {
+	id := c.Param("id")
+	orders, err := uc.service.GetHistory(id)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.Response[any]{
+			Status 	: "failed",
+			Message	: "failed to fetch order history",
+			Error	:  err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, response.Response[any]{
+		Status 	: "success",
+		Message	: "success to fetch order history",
+		Data	:  orders,
+	})
+}
+
 func (uc *OrderController) GiveRating(c echo.Context) error {
 	order_rate := c.FormValue("order_rate")
 	f64_order_rate, _ := strconv.ParseFloat(order_rate, 64)
