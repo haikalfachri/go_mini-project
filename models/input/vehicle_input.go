@@ -7,7 +7,6 @@ type VehicleInput struct {
 	Type		string 	`json:"type" validate:"required"`
 	Name     	string 	`json:"name" validate:"required"`
 	Price		float64 `json:"price" validate:"required"`
-	Status		string 	`json:"status" validate:"required"`
 	Rating		float64 `json:"rating" validate:"min=0,max=5"`
 }
 
