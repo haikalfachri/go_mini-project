@@ -20,7 +20,6 @@ func (ur *VehicleRepositoryImp) Create(vehicleInput input.VehicleInput) (models.
 		Type: vehicleInput.Type,
 		Name: vehicleInput.Name,
 		Price: vehicleInput.Price,
-		Status: vehicleInput.Status,
 		Rating: vehicleInput.Rating,
 	}
 
@@ -104,7 +103,6 @@ func (ur *VehicleRepositoryImp) Update(vehicleInput input.VehicleInput, id strin
 	vehicle.Type = vehicleInput.Type
 	vehicle.Name = vehicleInput.Name
 	vehicle.Price = vehicleInput.Price
-	vehicle.Status = vehicleInput.Status
 	vehicle.Rating = vehicleInput.Rating
 
 	if err := database.ConnectDB().Save(&vehicle).Error; err != nil {
