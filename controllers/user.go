@@ -21,8 +21,17 @@ func InitUserContoller(jwtAuth *middlewares.JWTConfig) *UserController {
 }
 
 func (uc *UserController) Register(c echo.Context) error {
-	var userInput input.UserInput
-	c.Bind(&userInput)
+	name := c.FormValue("name")
+	email := c.FormValue("email")
+	password := c.FormValue("password")
+	role := c.FormValue("role")
+
+	var userInput input.UserInput = input.UserInput{
+		Name: name,
+		Email: email,
+		Password: password,
+		Role: role,
+	}
 
 	err := userInput.Validate()
 	if err != nil {
@@ -50,9 +59,14 @@ func (uc *UserController) Register(c echo.Context) error {
 }
 
 func (uc *UserController) Login(c echo.Context) error {
-	var userInput input.UserInput
-	c.Bind(&userInput)
+	email := c.FormValue("email")
+	password := c.FormValue("password")
 
+	var userInput input.UserInput = input.UserInput{
+		Email: email,
+		Password: password,
+	}
+	
 	token, err := uc.service.Login(userInput)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Response[any]{

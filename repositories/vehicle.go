@@ -99,7 +99,10 @@ func (ur *VehicleRepositoryImp) Update(vehicleInput input.VehicleInput, id strin
 		return models.Vehicle{}, err
 	}
 
-	vehicle.NumberPlate = vehicleInput.NumberPlate
+	if vehicle.NumberPlate != vehicleInput.NumberPlate{
+		vehicle.NumberPlate = vehicleInput.NumberPlate
+	}
+
 	vehicle.Type = vehicleInput.Type
 	vehicle.Name = vehicleInput.Name
 	vehicle.Price = vehicleInput.Price

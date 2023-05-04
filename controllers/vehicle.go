@@ -6,6 +6,7 @@ import (
 	"mini_project/models/input"
 	"mini_project/services"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -21,8 +22,18 @@ func InitVehicleContoller(jwtAuth *middlewares.JWTConfig) *VehicleController {
 }
 
 func (uc *VehicleController) Create(c echo.Context) error {
-	var vehicleInput input.VehicleInput
-	c.Bind(&vehicleInput)
+	number_plate := c.FormValue("number_plate")
+	vehicle_type := c.FormValue("vehicle_type")
+	name := c.FormValue("name")
+	price := c.FormValue("price")
+	f64_price, _ := strconv.ParseFloat(price, 64)
+
+	var vehicleInput input.VehicleInput = input.VehicleInput{
+		NumberPlate: number_plate,
+		Type: vehicle_type,
+		Name: name,
+		Price: f64_price,
+	}
 
 	err := vehicleInput.Validate()
 	if err != nil {
@@ -127,8 +138,18 @@ func (uc *VehicleController) UpdateRating(c echo.Context) error {
 }
 
 func (uc *VehicleController) Update(c echo.Context) error {
-	var vehicleInput input.VehicleInput
-	c.Bind(&vehicleInput)
+	number_plate := c.FormValue("number_plate")
+	vehicle_type := c.FormValue("vehicle_type")
+	name := c.FormValue("name")
+	price := c.FormValue("price")
+	f_price, _ := strconv.ParseFloat(price, 64)
+
+	var vehicleInput input.VehicleInput = input.VehicleInput{
+		NumberPlate: number_plate,
+		Type: vehicle_type,
+		Name: name,
+		Price: f_price,
+	}
 
 	err := vehicleInput.Validate()
 	if err != nil {
