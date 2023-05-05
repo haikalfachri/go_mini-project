@@ -19,22 +19,6 @@ func InitTransactionService(jwtAuth *middlewares.JWTConfig) TransactionService {
 	}
 }
 
-func (us *TransactionService) Create(transactionInput input.TransactionInput) (models.Transaction, error){
-	return us.repository.Create(transactionInput)
-}
-
-func (us *TransactionService) GetAll() ([]models.Transaction, error){
-	return us.repository.GetAll()
-}
-
-func (us *TransactionService) GetById(id string) (models.Transaction, error){
-	return us.repository.GetById(id)
-}
-
 func (us *TransactionService) Update(transactionInput input.TransactionInput, id string) (models.Transaction, error){
 	return us.repository.Update(transactionInput, id)
-}
-
-func (us *TransactionService) Delete(id string) (error){
-	return us.repository.Delete(id)
 }

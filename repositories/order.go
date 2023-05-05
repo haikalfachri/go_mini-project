@@ -103,37 +103,3 @@ func (ur *OrderRepositoryImp) UpdateStatus(id string) (models.Order, error) {
 
     return order, nil
 }
-
-func (ur *OrderRepositoryImp) Update(orderInput input.OrderInput, id string) (models.Order, error) {
-	order, err := ur.GetById(id)
-
-	if err != nil {
-		return models.Order{}, err
-	}
-
-	order.UserID = orderInput.UserID
-	order.VehicleID = orderInput.VehicleID
-	order.TransactionID = orderInput.TransactionID
-	order.RentDuration = orderInput.RentDuration
-	order.Status = orderInput.Status
-
-	if err := database.ConnectDB().Save(&order).Error; err != nil {
-		return models.Order{}, err
-	}
-
-    return order, nil
-}
-
-func (ur *OrderRepositoryImp) Delete(id string) error {
-	order, err := ur.GetById(id)
-
-	if err != nil {
-		return err
-	}
-
-	if err := database.ConnectDB().Delete(&order).Error; err != nil {
-		return err
-	}
-
-    return nil
-}

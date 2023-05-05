@@ -8,10 +8,6 @@ import (
 type UserRepository interface {
 	Register(userInput input.UserInput) (models.User, error)
 	Login(userInput input.UserInput) (models.User, error)
-	GetAll() ([]models.User, error)
-	GetById(id string) (models.User, error)
-	Update(userInput input.UserInput, id string) (models.User, error)
-	Delete(id string) error
 }
 
 type VehicleRepository interface {
@@ -25,20 +21,13 @@ type VehicleRepository interface {
 }
 
 type TransactionRepository interface {
-	Create(transactionInput input.TransactionInput) (models.Transaction, error)
-	GetAll() ([]models.Transaction, error)
-	GetById(id string) (models.Transaction, error)
 	Update(transactionInput input.TransactionInput, id string) (models.Transaction, error)
-	Delete(id string) error
 }
 
 type OrderRepository interface {
 	Create(orderInput input.OrderInput) (models.Order, error)
 	GetAll() ([]models.Order, error)
-	GetById(id string) (models.Order, error)
 	GetHistory(id string) ([]models.Order, error)
 	UpdateStatus(id string) (models.Order, error)
 	UpdateRating(orderInput input.OrderInput, id string) (models.Order, error)
-	Update(orderInput input.OrderInput, id string) (models.Order, error)
-	Delete(id string) error
 }
