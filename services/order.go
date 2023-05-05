@@ -27,14 +27,9 @@ func (us *OrderService) GetAll() ([]models.Order, error){
 	return us.repository.GetAll()
 }
 
-func (us *OrderService) GetById(id string) (models.Order, error){
-	return us.repository.GetById(id)
-}
-
 func (us *OrderService) GetHistory(id string) ([]models.Order, error){
 	return us.repository.GetHistory(id)
 }
-
 
 func (us *OrderService) UpdateStatus(id string) (models.Order, error){
 	return us.repository.UpdateStatus(id)
@@ -42,12 +37,4 @@ func (us *OrderService) UpdateStatus(id string) (models.Order, error){
 
 func (us *OrderService) UpdateRating(orderInput input.OrderInput, id string) (models.Order, error){
 	return us.repository.UpdateRating(orderInput, id)
-}
-
-func (us *OrderService) Update(orderInput input.OrderInput, id string) (models.Order, error){
-	return us.repository.Update(orderInput, id)
-}
-
-func (us *OrderService) Delete(id string) (error){
-	return us.repository.Delete(id)
 }

@@ -13,32 +13,6 @@ func InitTransactionRepository() TransactionRepository {
 	return &TransactionRepositoryImp{}
 }
 
-func (ur *TransactionRepositoryImp) Create(transactionInput input.TransactionInput) (models.Transaction, error) {
-	var transaction models.Transaction = models.Transaction{
-		Name: transactionInput.Name,
-		Data: transactionInput.Data,
-	}
-
-	if err := database.ConnectDB().Create(&transaction).Error; err != nil {
-		return models.Transaction{}, err
-	}
-
-	if err := database.ConnectDB().Last(&transaction).Error; err != nil {
-		return models.Transaction{}, err
-	}
-
-    return transaction, nil
-}
-
-func (ur *TransactionRepositoryImp) GetAll() ([]models.Transaction, error) {
-	var transactions []models.Transaction
-
-	if err := database.ConnectDB().Find(&transactions).Error; err != nil {
-		return transactions, err
-	}
-	return transactions, nil
-}
-
 func (ur *TransactionRepositoryImp) GetById(id string) (models.Transaction, error) {
 	var transaction models.Transaction
 
@@ -63,18 +37,4 @@ func (ur *TransactionRepositoryImp) Update(transactionInput input.TransactionInp
 	}
 
     return transaction, nil
-}
-
-func (ur *TransactionRepositoryImp) Delete(id string) error {
-	transaction, err := ur.GetById(id)
-
-	if err != nil {
-		return err
-	}
-
-	if err := database.ConnectDB().Delete(&transaction).Error; err != nil {
-		return err
-	}
-
-    return nil
 }

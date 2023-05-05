@@ -37,19 +37,3 @@ func (us *UserService) Login(userInput input.UserInput) (string, error) {
 	return token, nil
 }
 
-func (us *UserService) GetAll() ([]models.User, error){
-	return us.repository.GetAll()
-}
-
-func (us *UserService) GetById(id string) (models.User, error){
-	return us.repository.GetById(id)
-}
-
-func (us *UserService) Update(userInput input.UserInput, id string) (models.User, error){
-	return us.repository.Update(userInput, id)
-}
-
-func (us *UserService) Delete(id string) (error){
-	return us.repository.Delete(id)
-}
-
