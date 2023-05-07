@@ -29,15 +29,15 @@ func (cl *ControllerList) SetUpRoutes(e *echo.Echo) {
 	useAuth.POST("/vehicles", cl.VehicleController.Create, middlewares.VerifyAdmin)
 	useAuth.GET("/vehicles/name", cl.VehicleController.GetByName, middlewares.VerifyToken)
 	useAuth.GET("/vehicles", cl.VehicleController.GetAll, middlewares.VerifyAdmin)
-	useAuth.GET("/vehicles/:id", cl.VehicleController.GetById, middlewares.VerifyAdmin)
-	useAuth.PUT("/vehicles/rate/:id", cl.VehicleController.UpdateRating, middlewares.VerifyAdmin)
-	useAuth.PUT("/vehicles/:id", cl.VehicleController.Update, middlewares.VerifyAdmin)
-	useAuth.DELETE("/vehicles/:id", cl.VehicleController.Delete, middlewares.VerifyAdmin)
+	useAuth.GET("/vehicles/:vehilceId", cl.VehicleController.GetById, middlewares.VerifyAdmin)
+	useAuth.PUT("/vehicles/rate/:vehicleId", cl.VehicleController.UpdateRating, middlewares.VerifyAdmin)
+	useAuth.PUT("/vehicles/:vehicleId", cl.VehicleController.Update, middlewares.VerifyAdmin)
+	useAuth.DELETE("/vehicles/:vehicleId", cl.VehicleController.Delete, middlewares.VerifyAdmin)
 
-	useAuth.PUT("/transactions/pay/:id", cl.TransactionController.PayOrder, middlewares.VerifyToken)
+	useAuth.PUT("/transactions/pay/:transactionId", cl.TransactionController.PayOrder, middlewares.VerifyToken)
 
 	useAuth.POST("/orders", cl.OrderController.Create, middlewares.VerifyToken)
 	useAuth.GET("/orders", cl.OrderController.GetAll, middlewares.VerifyAdmin)
-	useAuth.PUT("/orders/rate/:id", cl.OrderController.GiveRating, middlewares.VerifyToken)
-	useAuth.GET("/orders/history/:id", cl.OrderController.GetHistory, middlewares.VerifyToken)
+	useAuth.PUT("/orders/rate/:orderId", cl.OrderController.GiveRating, middlewares.VerifyToken)
+	useAuth.GET("/orders/history/:userId", cl.OrderController.GetHistory, middlewares.VerifyToken)
 }
