@@ -6,11 +6,11 @@ The main purpose of creating a rental application is to make it easy for custome
 
 ## Use Case Diagram
 
-![Use Case Diagram](https://github.com/hklfach/tumbal/blob/master/docs/usecase.jpg?raw=true)
+![Use Case Diagram](https://github.com/hklfach/go_mini-project/blob/master/docs/usecase.jpg?raw=true)
 
 ## Entity-Relationship Diagram
 
-![ERD](https://github.com/hklfach/tumbal/blob/master/docs/erd.jpg?raw=true)
+![ERD](https://github.com/hklfach/go_mini-project/blob/master/docs/erd.jpg?raw=true)
 
 ## Application Flow 
 
@@ -48,7 +48,7 @@ Use postman or other API tools to test the API
 
 ***NOTES: Make sure the logs shows echo framework logo and the port***
 
-![echo](https://github.com/hklfach/tumbal/blob/master/docs/echo.jpg?raw=true)
+![echo](https://github.com/hklfach/go_mini-project/blob/master/docs/echo.jpg?raw=true)
 
 4. Test the app using API tools
     - Use localhost with port 8000
